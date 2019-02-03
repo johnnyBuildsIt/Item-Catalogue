@@ -6,6 +6,12 @@ from sqlalchemy import create_engine
 Base = declarative_base()
 
 
+class User(Base):
+    __tablename__ = 'user'
+    id = Column(Integer, primary_key=True)
+    email = Column(String(80), unique=True, nullable=False)
+
+
 class Category(Base):
     __tablename__ = 'category'
 
@@ -32,11 +38,6 @@ class Item(Base):
             'description': self.description,
             'categoryId': self.categoryId
         }
-
-class User(Base):
-    __tablename__ = 'user'
-    id = Column(Integer, primary_key=True)
-    email = Column(String(80), unique=True, nullable=False)
 
 
 engine = create_engine('sqlite:///catalogitem.db')
