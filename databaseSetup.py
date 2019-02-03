@@ -19,8 +19,10 @@ class Item(Base):
     name = Column(String(80), nullable=False)
     id = Column(Integer, primary_key=True)
     description = Column(String(250))
+    user_id = Column(Integer, ForeignKey('user,id'))
     categoryId = Column(Integer, ForeignKey('category.id'))
     category = relationship(Category)
+    user = relationship(User)
 
     @property
     def serialize(self):
@@ -30,6 +32,11 @@ class Item(Base):
             'description': self.description,
             'categoryId': self.categoryId
         }
+
+class User(Base):
+    __tablename__ = 'user'
+    id = Column(Integer, primary_key=True)
+    email = Column(String(80), unique=True, nullable=False)
 
 
 engine = create_engine('sqlite:///catalogitem.db')
