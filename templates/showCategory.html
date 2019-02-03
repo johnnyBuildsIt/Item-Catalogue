@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <h1>{{category.name}}</h1>
+    {% if 'username' in login_session %}
+        <a href="{{url_for('newItem', categoryName=category.name)}}">New Item</a>
+    {% endif %}
+    <ul class="list-group mb-5">
+        {% for item in items %}
+            <a href="{{url_for('showItem', categoryName=category.name, itemName=item.name)}}" class="list-group-item">
+                {{item.name}}
+            </a>
+            {% if 'username' in login_session %}
+                <a href="{{url_for('editItem', categoryName=category.name, itemName=item.name)}}">
+                    Edit
+                </a>
+                <a href="{{url_for('deleteItem', categoryName=category.name, itemName=item.name)}}">
+                    Delete
+                </a>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock %}

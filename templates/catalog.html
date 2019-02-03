@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <h1>Categories</h1>
+    {% if 'username' in login_session %}
+        <a href="{{url_for('newCategory')}}">New Category</a>
+    {% endif %}
+    {% for category in categories %}
+        <h3>
+            <a href="{{url_for('showCategory', categoryName=category.name)}}">{{category.name}}</a>
+        </h3>
+            {% if 'username' in login_session %}
+                <a href="{{url_for('editCategory', categoryName=category.name)}}">Edit</a>
+                <a href="{{url_for('deleteCategory', categoryName=category.name)}}">Delete</a>
+            {% endif %}
+    {% endfor %}
+{% endblock %}
