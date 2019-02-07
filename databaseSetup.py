@@ -11,6 +11,7 @@ class Category(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(80), nullable=False)
+    owner = Column(String(80))
 
 
 class Item(Base):

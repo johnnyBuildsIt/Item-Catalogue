@@ -70,3 +70,5 @@ fabric.properties
 
 catalogitem.db
 client_secrets.json
+.DS_Store
+databaseSetup.pyc
