@@ -176,6 +176,10 @@ def showLogin():
     return render_template('login.html', STATE=state, login_session=login_session)
     #return render_template('login.html')
 
+@app.route('/unauthorized')
+def unauthorized():
+    pass
+
 @app.route('/logout')
 def showLogout():
     return render_template('logout.html', login_session=login_session)
