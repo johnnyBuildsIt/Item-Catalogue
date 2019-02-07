@@ -84,7 +84,8 @@ def newItem(categoryName):
     if request.method == 'POST':
         newItem = Item(name=request.form['name'],
                        description=request.form['description'],
-                       category=category)
+                       category=category,
+                       )
         session.add(newItem)
         session.commit()
         return redirect(url_for('showCategory', categoryName=category.name))
