@@ -34,7 +34,8 @@ def newCategory():
     if 'username' not in login_session:
         return redirect('/login')
     if request.method == 'POST':
-        newCategory = Category(name=request.form['name'])
+        newCategory = Category(name=request.form['name'],
+                               owner=login_session['username'])
         session.add(newCategory)
         session.commit()
         return redirect(url_for('showCatalog'))
@@ -54,13 +55,16 @@ def editCategory(categoryName):
     if 'username' not in login_session:
         return redirect('/login')
     categoryToEdit = session.query(Category).filter_by(name=categoryName).one()
-    if request.method == 'POST':
-        categoryToEdit.name = request.form['name']
-        session.add(categoryToEdit)
-        session.commit()
-        return redirect(url_for('showCatalog'))
+    if categoryToEdit.owner == login_session['username']:
+        if request.method == 'POST':
+            categoryToEdit.name = request.form['name']
+            session.add(categoryToEdit)
+            session.commit()
+            return redirect(url_for('showCatalog'))
+        else:
+            return render_template('editCategory.html', category=categoryToEdit, login_session=login_session)
     else:
-        return render_template('editCategory.html', category=categoryToEdit, login_session=login_session)
+        return render_template('unauthorized.html')
 
 
 @app.route('/catalog/<categoryName>/delete', methods=['GET', 'POST'])
