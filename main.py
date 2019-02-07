@@ -107,17 +107,18 @@ def editItem(categoryName, itemName):
         return redirect('/login')
     category = session.query(Category).filter_by(name=categoryName).one()
     itemToEdit = session.query(Item).filter_by(categoryId=category.id).filter(Item.name == itemName).one()
-    if request.method == 'POST':
-        if itemToEdit.owner == login_session['username']:
+    if itemToEdit.owner == login_session['username']:
+        if request.method == 'POST':
             itemToEdit.name = request.form['name']
             itemToEdit.description = request.form['description']
             session.add(itemToEdit)
             session.commit()
             return redirect(url_for('showCategory', categoryName=category.name))
         else:
-            return redirect(url_for('unauthorized'))
+            return render_template('editItem.html', category=category, item=itemToEdit, login_session=login_session)
     else:
-        return render_template('editItem.html', category=category, item=itemToEdit, login_session=login_session)
+        return redirect(url_for('unauthorized'))
+
 
 
 @app.route('/catalog/<categoryName>/<itemName>/delete', methods=['GET', 'POST'])
