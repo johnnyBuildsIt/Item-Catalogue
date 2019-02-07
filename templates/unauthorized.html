@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <h1>You do not own this item and may not make changes.</h1>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        setTimeout(function() {
+            window.location.href = "/catalog";
+        }, 4000);
+    </script>
+(% endblock %)
