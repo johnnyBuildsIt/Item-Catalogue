@@ -85,7 +85,7 @@ def newItem(categoryName):
         newItem = Item(name=request.form['name'],
                        description=request.form['description'],
                        category=category,
-                       user_id=login_session['username']
+                       owner=login_session['username']
                        )
         session.add(newItem)
         session.commit()
@@ -108,11 +108,14 @@ def editItem(categoryName, itemName):
     category = session.query(Category).filter_by(name=categoryName).one()
     itemToEdit = session.query(Item).filter_by(categoryId=category.id).filter(Item.name == itemName).one()
     if request.method == 'POST':
-        itemToEdit.name = request.form['name']
-        itemToEdit.description = request.form['description']
-        session.add(itemToEdit)
-        session.commit()
-        return redirect(url_for('showCategory', categoryName=category.name))
+        if itemToEdit.owner == login_session['username']:
+            itemToEdit.name = request.form['name']
+            itemToEdit.description = request.form['description']
+            session.add(itemToEdit)
+            session.commit()
+            return redirect(url_for('showCategory', categoryName=category.name))
+        else:
+            return redirect(url_for('unauthorized'))
     else:
         return render_template('editItem.html', category=category, item=itemToEdit, login_session=login_session)
 
@@ -174,11 +177,12 @@ def showLogin():
                     for x in xrange(32))
     login_session['state'] = state
     return render_template('login.html', STATE=state, login_session=login_session)
-    #return render_template('login.html')
+
 
 @app.route('/unauthorized')
 def unauthorized():
-    pass
+    return render_template('unauthorized.html')
+
 
 @app.route('/logout')
 def showLogout():

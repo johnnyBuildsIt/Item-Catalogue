@@ -15,7 +15,8 @@ session.commit()
 
 item1 = Item(name='14m^2 Kite',
              description='Kite for light winds.',
-             category=category1)
+             category=category1,
+             owner='rockicestring@gmail.com')
 
 session.add(item1)
 session.commit()
