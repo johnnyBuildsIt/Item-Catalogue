@@ -85,6 +85,7 @@ def newItem(categoryName):
         newItem = Item(name=request.form['name'],
                        description=request.form['description'],
                        category=category,
+                       user_id=login_session['username']
                        )
         session.add(newItem)
         session.commit()
