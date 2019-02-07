@@ -127,13 +127,15 @@ def deleteItem(categoryName, itemName):
         return redirect('/login')
     category = session.query(Category).filter_by(name=categoryName).one()
     itemToDelete = session.query(Item).filter_by(categoryId=category.id).filter(Item.name == itemName).one()
-    if request.method == 'POST':
-        session.delete(itemToDelete)
-        session.commit()
-        return redirect(url_for('showCategory', categoryName=category.name))
+    if itemToDelete.owner == login_session['username']:
+        if request.method == 'POST':
+            session.delete(itemToDelete)
+            session.commit()
+            return redirect(url_for('showCategory', categoryName=category.name))
+        else:
+            return render_template('deleteItem.html', category=category, item=itemToDelete, login_session=login_session)
     else:
-        return render_template('deleteItem.html', category=category, item=itemToDelete, login_session=login_session)
-
+        return redirect(url_for('unauthorized'))
 
 @app.route('/catalog.json')
 def showCatalogJSON():
