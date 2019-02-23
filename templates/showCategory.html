@@ -5,16 +5,16 @@
     {% if 'username' in login_session %}
         <a href="{{url_for('newItem', categoryName=category.name)}}">New Item</a>
     {% endif %}
-    <ul class="list-group mb-5">
+    <ul class="list-group mb-5 borderless">
         {% for item in items %}
-            <a href="{{url_for('showItem', categoryName=category.name, itemName=item.name)}}" class="list-group-item">
+            <a href="{{url_for('showItem', categoryName=category.name, itemName=item.name)}}" class="list-group-item borderless">
                 {{item.name}}
             </a>
             {% if 'username' in login_session %}
-                <a href="{{url_for('editItem', categoryName=category.name, itemName=item.name)}}">
+                <a class="btn btn-primary w-25" href="{{url_for('editItem', categoryName=category.name, itemName=item.name)}}">
                     Edit
                 </a>
-                <a href="{{url_for('deleteItem', categoryName=category.name, itemName=item.name)}}">
+                <a class="btn btn-danger w-25" href="{{url_for('deleteItem', categoryName=category.name, itemName=item.name)}}">
                     Delete
                 </a>
             {% endif %}
