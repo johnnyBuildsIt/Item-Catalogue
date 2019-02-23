@@ -27,3 +27,5 @@ This project was created using PyCharm 2017.1.5, Python 2.7.15, and Flask on a a
 - $python main.py 
 - open a browser and navigate to localhost:5050/catalog 
 
+# An online version of this project can be found at:
+- www.johnnyrutkowski.com (18.204.218.32)
